@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:week8/Db/functions/db_functions.dart';
@@ -33,19 +35,21 @@ class _ScreenAddState extends State<ScreenAdd> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              InkWell(
-                onTap: () {
-                  selectionImage(context);
-                },
-                child: Container(
-                    height: 150,
-                    width: 150,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
+              Container(
+                  height: 250,
+                  width: 250,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1),
                       shape: BoxShape.circle,
-                    )),
-              ),
+                      image: images?.path == null
+                          ? const DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/logo img brocamp.png'),
+                              fit: BoxFit.contain)
+                          : DecorationImage(
+                              image: FileImage(File(images!.path)),
+                              fit: BoxFit.cover))),
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -171,11 +175,12 @@ class _ScreenAddState extends State<ScreenAdd> {
               onTap: () async {
                 Navigator.pop(context);
                 images = await pickImage(ImageSource.camera);
+                setState(() {});
               },
               leading: IconButton(
                   onPressed: () async {
                     Navigator.pop(context);
-                    images = await pickImage(ImageSource.camera);
+                    setState(() {});
                   },
                   icon: const Icon(Icons.camera_enhance)),
               title: const Text('Camera'),
@@ -184,11 +189,13 @@ class _ScreenAddState extends State<ScreenAdd> {
               onTap: () async {
                 Navigator.pop(context);
                 images = await pickImage(ImageSource.gallery);
+                setState(() {});
               },
               leading: IconButton(
                   onPressed: () async {
                     Navigator.pop(context);
                     images = await pickImage(ImageSource.gallery);
+                    setState(() {});
                   },
                   icon: const Icon(Icons.photo)),
               title: const Text('Gallery'),
@@ -225,11 +232,13 @@ class _ScreenAddState extends State<ScreenAdd> {
           builder: (ctx) => AlertDialog(
                 actions: [
                   Align(
+                      alignment: Alignment.center,
                       child: Image.asset(
-                          'assets/images/1818-success-animation.gif'),
-                      alignment: Alignment.center),
+                          'assets/images/1818-success-animation.gif')),
                 ],
               ));
+      await Future.delayed(const Duration(seconds: 2));
+      Navigator.pop(context);
     }
   }
 

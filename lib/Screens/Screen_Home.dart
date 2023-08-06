@@ -17,11 +17,6 @@ class _ScreenHomeState extends State<ScreenHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Image.asset(
-                  'assets/images/logo img brocamp.png',
-                  height: 200,
-                  width: 400,
-                ),
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
